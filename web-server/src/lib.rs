@@ -12,25 +12,34 @@ use std::{
 /// architecture in order to prevent DoS attacks.
 pub struct ThreadPool {
     workers: Vec<Worker>,
-    sender: mpsc::Sender<Job>,
+    sender: Option<mpsc::Sender<Job>>,
 }
 
 type Job = Box<dyn FnOnce() + Send + 'static>;
 
 struct Worker {
-    id: usize,
+    _id: usize,
     handle: JoinHandle<()>,
 }
 
 impl Worker {
     fn new(id: usize, receiver: Arc<Mutex<Receiver<Job>>>) -> Self {
         Worker {
-            id,
+            _id: id,
             handle: thread::spawn(move || {
                 loop {
-                    let job = receiver.lock().unwrap().recv().unwrap();
-                    println!("Worker with id = {id} started.");
-                    job();
+                    let received = receiver.lock().unwrap().recv();
+
+                    match received {
+                        Ok(job) => {
+                            println!("Worker with id = {id} started.");
+                            job();
+                        }
+                        Err(_) => {
+                            println!("Worker with id = {id} disconnected.");
+                            break;
+                        }
+                    }
                 }
             }),
         }
@@ -56,13 +65,28 @@ impl ThreadPool {
             workers.push(Worker::new(id, Arc::clone(&receiver)));
         }
 
-        ThreadPool { workers, sender }
+        ThreadPool {
+            workers,
+            sender: Some(sender),
+        }
     }
 
+    /// Assigns a closure to a thread in the pool.
+    ///
+    /// `f` is a closure of type `FnOnce()`.
     pub fn assign<F>(&self, f: F)
     where
         F: FnOnce() + Send + 'static,
     {
-        self.sender.send(Box::new(f)).unwrap();
+        self.sender.as_ref().unwrap().send(Box::new(f)).unwrap();
+    }
+}
+
+impl Drop for ThreadPool {
+    fn drop(&mut self) {
+        drop(self.sender.take());
+        for worker in self.workers.drain(..) {
+            worker.handle.join().unwrap();
+        }
     }
 }

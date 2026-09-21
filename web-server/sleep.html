@@ -1,22 +1,43 @@
 <!doctype html>
-  <head> 
-   <meta name="author" content="Romano Mancini">
-  </head>
+<head> 
+  <meta name="author" content="Romano Mancini">
+</head>
 
-  <body>
-      <h1>Welcome to my Rust Webserver. Example of a slow request!</h1>
-      <p>This page is served by a webserver written in Rust. This specific page sleeps 5 seconds before being read.</p>
-      <ul>
-        <li> 
-          <a href="https://doc.rust-lang.org/book/">
-            The Rust Programming Language Book
-          </a>
-        </li>
-        <li>
-          <a href="https://github.com/Romano-Mancini/rust-web-server">
-            GitHub repository of the project
-          </a>
-        </li>
-      </ul>  
-  </body>
+<body>
+  <h1>Welcome to my Rust Webserver. Example of a slow request!</h1>
+  <p>This specific page sleeps 5 seconds before being sent as a response.</p>
+
+  <ul>
+    <li>
+      <a href="/">
+        Go back to the index!
+      </a>
+    </li>
+
+    <li>
+      <a href="/sleep">
+        Make the server sleep!
+      </a>
+    </li>
+
+    <li>
+      <a href="/kill">
+        Kill the server!
+      </a>
+    </li>
+  </ul>
+
+  <ul>
+    <li> 
+      <a href="https://doc.rust-lang.org/book/">
+        The Rust Programming Language Book
+      </a>
+    </li>
+    <li>
+      <a href="https://github.com/Romano-Mancini/rust-web-server">
+        GitHub repository of the project
+      </a>
+    </li>
+  </ul>  
+</body>
 </html>
