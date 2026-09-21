@@ -22,3 +22,7 @@ Fixed size thread pool of 5 workers. It serves static HTML files and supports gr
 ## How to run
 
 Clone the repository, then simply `cargo run` inside the package folder. Then, open `localhost:8080` on a web browser.
+
+## Inspiration
+
+Inspired by the last chapter of [The Rust Programming Language](https://doc.rust-lang.org/book/) book.
