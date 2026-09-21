@@ -13,7 +13,7 @@ Fixed size thread pool of 5 workers. It serves static HTML files and supports gr
 | `/kill`   | 200 OK        | `kill.html`      | Responds, then shuts the server down gracefully.               |
 | any other | 404 Not Found | `not_found.html` | Fallback for unknown paths.                                    |
 
-## Current limitations / TODO
+## Limitations to address in the future
 
 - Several calls to `unwrap()`, which might cause the program to panic;
 - no keep-alive;
