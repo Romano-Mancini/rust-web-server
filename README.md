@@ -1,6 +1,6 @@
 # Rust web server
 
-Multithreaded web server built from scratch in Rust, for learning purposes. No AI tool is used to generate code for this repository.
+Multithreaded web server built from scratch in Rust, for learning purposes. Every line of code is hand-written, meaning I did not paste it from an LLM.
 
 ## Features
 
